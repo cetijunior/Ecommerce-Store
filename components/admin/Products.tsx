@@ -1,0 +1,122 @@
+/* eslint-disable @next/next/no-img-element */
+import React, { useEffect, useState } from 'react';
+import '@/app/globals.css'
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+
+interface Product {
+    _id: string;
+    name: string;
+    description: string;
+    price: number;
+    category: string;
+    imageUrl: string;
+    inStock: boolean;
+}
+
+const Products = () => {
+    const [dataItems, setDataItems] = useState<Product[]>([]);
+    const router = useRouter();
+    const [productId, setProductId] = useState<string>('');
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await fetch("/api/SampleData");
+                if (!res.ok) throw new Error("Data could not be fetched");
+                const data: Product[] = await res.json();
+                setDataItems(data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchData();
+    }, []);
+
+
+    const handleEdit = (productId: string, productName: string, productDescription: string, productPrice: number, productCategory: string, productImageUrl: string) => {
+        router.push({
+            pathname: `/admin/EditProduct/${productId}`,
+            query: {
+                name: productName,
+                description: productDescription,
+                price: productPrice,
+                category: productCategory,
+                imageUrl: productImageUrl
+            }
+        });
+    };
+
+
+
+    const handleDelete = async (id: string) => {
+        try {
+            const res = await fetch(`/api/products/${id}`, {
+                method: 'DELETE',
+            });
+            if (!res.ok) throw new Error('Failed to delete product');
+            // Remove the deleted product from the state
+            setDataItems(dataItems.filter((item) => item._id !== id));
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+
+    return (
+        <div className='h-screen'>
+            <div className='flex flex-col space-y-5  w-full h-fit pb-4 border-b-4 border-gray-600'>
+                <h1 className='text-4xl text-center font-semibold pt-14'>
+                    Products
+                </h1>
+                <div className='flex flex-row justify-center w-screen h-full items-center px-40 space-x-10'>
+                    <Link href='/admin/AddProduct'>
+                        <button className=' px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors'>
+                            Add Product
+                        </button>
+                    </Link>
+                    <Link href=''>
+                        <button className='px-4 py-2 bg-gray-200 text-black rounded hover:bg-blue-300 transition-colors'>
+                            🔍 Search
+                        </button>
+                    </Link>
+                </div>
+            </div>
+
+
+            <div className='flex flex-row justify-between w-screen h-fit overflow-x-scroll items-center px-10 pb-10 mt-20 space-x-10'>
+                {dataItems.map((product, index) => (
+                    <div key={index} className='flex flex-col shadow-2xl hover:scale-105 rounded-[15px] bg-gray-200 p-4 items-end justify-between transition-all duration-300'>
+                        <div className="flex flex-col items-start space-y-2 w-[250px] justify-evenly">
+                            <img
+                                className='w-full max-h-40 object-cover'
+                                src={product.imageUrl}
+                                alt={product.name}
+                            />
+                            <div className='flex flex-col items-start h-[200px] justify-evenly w-full'>
+                                <h2 className='text-xl font-semibold opacity-80'>{product.name}</h2>
+                                <p className='opacity-85'>{product.description}</p>
+                                <div className='flex flex-row items-center justify-between w-full '>
+                                    <p className='font-bold'>${product.price}</p>
+                                </div>
+                                <div key={product._id} className='flex felx-row justify-evenly w-full'>
+                                    <button onClick={() => handleEdit(product._id, product.name, product.description, product.price, product.category, product.imageUrl)}
+                                        className='mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors'>
+                                        Edit
+                                    </button>
+
+                                    <button onClick={() => handleDelete(product._id)}
+                                        className='mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors'>
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    )
+}
+
+export default Products;
