@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { useState, useEffect } from "react";
 import '@/styles/globals.css'
 import { useRouter } from "next/router";
@@ -22,13 +23,26 @@ interface Error {
     imageUrl?: string;
 }
 
+interface Error {
+    [key: string]: string | undefined;
+}
+
+
 const ProductForm = ({ formId }: { formId: string }) => {
     const router = useRouter();
-    const { id, name: initialName, description: initialDescription, price: initialPrice, category: initialCategory, imageUrl: initialImageUrl } = router.query; // Product details from URL
+    const { id, price: initialPrice } = router.query; // Product details from URL
 
     const contentType = "application/json";
     const [errors, setErrors] = useState<Error>({});
     const [message, setMessage] = useState("");
+    const initialName = Array.isArray(router.query.name) ? router.query.name.join(' ') : router.query.name;
+    const initialDescription = Array.isArray(router.query.description) ? router.query.description.join(' ') : router.query.description;
+    const initialCategory = Array.isArray(router.query.category) ? router.query.category.join(' ') : router.query.category;
+    const initialImageUrl = Array.isArray(router.query.imageUrl) ? router.query.imageUrl.join(' ') : router.query.imageUrl;
+
+
+
+
     const [form, setForm] = useState<FormData>({
         _id: id as string, // Ensuring the ID is set from the start if available
         name: initialName || '',
@@ -51,15 +65,21 @@ const ProductForm = ({ formId }: { formId: string }) => {
                 imageUrl: initialImageUrl || ''
             });
         }
-    }, [router.query]);
+    }, [form, id, initialCategory, initialDescription, initialImageUrl, initialName, initialPrice, router.query]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value, type, checked } = e.target;
-        setForm(prev => ({
+        const { name, value, type, checked } = e.target as HTMLInputElement;
+        setForm((prev) => ({
             ...prev,
-            [name]: type === 'checkbox' ? checked : type === 'number' ? parseFloat(value) : value
+            [name]:
+                type === "checkbox"
+                    ? checked
+                    : type === "number"
+                        ? parseFloat(value)
+                        : value,
         }));
     };
+
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -167,7 +187,7 @@ const ProductForm = ({ formId }: { formId: string }) => {
                     className="mb-4 px-3 py-2 border rounded shadow-sm focus:outline-none focus:shadow-outline"
                 />
                 <div className="flex items-center justify-center w-full">
-                    <img className="w-20 rounded-lg" src={form.imageUrl}></img>
+                    <img className="w-20 rounded-lg" src={form.imageUrl} alt={form.name}></img>
                 </div>
                 <div className="flex items-center mb-6">
                     <input
