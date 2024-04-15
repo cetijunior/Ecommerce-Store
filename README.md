@@ -1,36 +1,20 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+An eccomerce template website with MongoDB and ClerkAuth
 
-## Getting Started
+[Hero]
+![Screenshot 2024-04-15 212528](https://github.com/cetijunior/ecom_template/assets/78642663/ca08d1e9-9dc7-4d37-8aaa-cd45b4e05f49)
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+[Latest Arrivals]
+![Screenshot 2024-04-15 212542](https://github.com/cetijunior/ecom_template/assets/78642663/807e4396-a0e9-4ee0-850d-bfa72ab883c6)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+[Products]
+![Screenshot 2024-04-15 212615](https://github.com/cetijunior/ecom_template/assets/78642663/c01df082-1700-480d-be61-81649438c566)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
+[Item[$id]]
+![Screenshot 2024-04-15 212638](https://github.com/cetijunior/ecom_template/assets/78642663/64749dea-2ca0-45e5-944f-dfaa08bbab51)
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+[Cart]
+![Screenshot 2024-04-15 212651](https://github.com/cetijunior/ecom_template/assets/78642663/a1208923-c9aa-4488-a5c1-806e112ec51b)
