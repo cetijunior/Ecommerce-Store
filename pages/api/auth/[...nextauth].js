@@ -10,17 +10,22 @@ export default NextAuth({
                 password: { label: "Password", type: "password", required: true }
             },
             authorize: async (credentials) => {
-                const res = await fetch(`${process.env.BACKEND_URL}/api/authenticate`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email: credentials.email, password: credentials.password })
-                });
+                try {
+                    const res = await fetch(`${process.env.BACKEND_URL}/api/login`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(credentials)
+                    });
 
-                if (res.status === 200) {
-                    const user = await res.json();
-                    return user;
-                } else {
-                    throw new Error("Your login details are incorrect");
+                    if (res.ok) {
+                        const user = await res.json();
+                        return user;
+                    } else {
+                        throw new Error("Your login details are incorrect");
+                    }
+                } catch (error) {
+                    console.error("Authentication error:", error);
+                    throw new Error("An error occurred during authentication");
                 }
             }
         })

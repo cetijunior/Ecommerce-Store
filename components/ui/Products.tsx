@@ -82,38 +82,35 @@ const Products = () => {
 
 
     return (
-        <div className='h-full pb-14'>
+        <div className="h-full flex flex-col items-center space-y-8 justify-evenly">
             <div className='flex flex-col items-center space-y-5'>
-                <h1 className='text-4xl font-semibold pt-14'>
+                <h1 className='text-4xl font-semibold pt-20'>
                     Our Products
                 </h1>
-                <h1 className='w-[450px] text-center opacity-80'>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. <br />
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                <h1 className="w-[450px] text-center opacity-80">
+                    Explore our full selections of products<br />
+                    and find the right one for you
                 </h1>
-                <button className='border-2 border-black px-6 '>Shop All</button>
+                {/*  <button className="border-2 border-black px-6 py-2">Shop All</button>  */}
             </div>
 
-            <div className='flex flex-row justify-between w-screen  h-full overflow-x-scroll scrollbar-x-true items-center px-10 pb-10 -mt-10 space-x-10'>
+            <div className='flex flex-row justify-between w-screen h-full overflow-x-scroll scrollbar-x-true items-center px-10 pb-10 -mt-10 space-x-10'>
                 {dataItems.map((product, index) => (
                     <div key={index} className='flex flex-col shadow-2xl hover:scale-105 rounded-[15px] bg-gray-200 p-4 items-end justify-between transition-all duration-300'>
-                        <div onClick={() => openItem(product._id)} className="flex flex-col items-start space-y-2 w-[250px] justify-evenly">
+                        <div onClick={() => openItem(product._id)} className="flex flex-col items-center space-y-2 w-[250px] justify-evenly">
                             <img
                                 className='w-full max-h-40 object-cover'
                                 src={product.imageUrl}
                                 alt={product.name}
                             />
-                            <div className='flex flex-col items-start h-[200px] justify-evenly w-full'>
-                                <h2 className='text-xl font-semibold opacity-80'>{product.name}</h2>
-                                <p className='opacity-85'>{product.description}</p>
-                                <div className='flex flex-row items-center justify-between w-full '>
-                                    <p className='font-bold'>${product.price}</p>
-                                    <button
-                                        onClick={() => addToCart(product)}
-                                        className="mt-auto z-10 px-3 py-[5px] bg-[#174c55] text-white rounded-md "
-                                    >
-                                        Add to Cart
-                                    </button>
+                            <div className='flex flex-col items-start h-[200px] justify-evenly w-full cursor-pointer'>
+                                <h2 className='text-2xl text-start font-semibold opacity-80'>{product.name}</h2>
+                                <p className='opacity-85 text-start'>{product.description}</p>
+                                <div className='flex flex-row justify-between w-full'>
+                                    <p className='font-bold text-2xl text-start'>${product.price}</p>
+                                    <p className="mt-auto px-3 py-[5px] bg-black text-white">
+                                        Open Item
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -121,7 +118,7 @@ const Products = () => {
                     </div>
                 ))}
             </div>
-        </div>
+        </div >
     )
 }
 

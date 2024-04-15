@@ -1,21 +1,26 @@
 import { useState, FormEvent } from 'react';
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import router, { useRouter } from 'next/router';
 
 export default function SignIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const router = useRouter(); // Correctly importing and using useRouter
+
+
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();  // Prevent the default form submission behavior
-        loginUser(email, password);
+        loginUser(email, password, status);
     };
 
-    async function loginUser(email: string, password: string) {
+
+    async function loginUser(email: string, password: string, status: string) {
         try {
             const response = await fetch('/api/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password })
+                body: JSON.stringify({ email, password, status: 'authenticated' })
             });
 
             if (response.status !== 200) {
@@ -27,12 +32,17 @@ export default function SignIn() {
 
             const userData = await response.json();
             console.log("Login successful:", userData);
-            // Assuming a redirect on successful login:
+            router.push(`/ ${status}`);
             window.location.href = '/';
+
         } catch (error) {
             console.error("Login error:", error);
         }
     }
+
+    const handleLogin = async () => {
+        await signIn();
+    };
 
     return (
         <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100">
@@ -70,7 +80,7 @@ export default function SignIn() {
                 </form>
                 <div className="mt-4">
                     <button
-                        onClick={() => signIn('google', { callbackUrl: '/' })}
+                        onClick={handleLogin}
                         className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                         Sign in with Google
                     </button>

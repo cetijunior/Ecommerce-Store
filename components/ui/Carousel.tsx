@@ -71,7 +71,7 @@ function Carousel() {
             <img
                 src={images[currentIndex]?.imageUrl}
                 alt={images[currentIndex]?.alt}
-                className={`w-screen h-[36rem] object-cover transition-transform duration-500`}
+                className={`w-screen h-[41rem] object-cover transition-transform duration-500`}
             />
             <a
                 onClick={goToPrevious}

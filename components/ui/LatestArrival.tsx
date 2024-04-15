@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from 'react';
 import { ProductDoc } from '@/models/Product';
-import { useSession } from 'next-auth/react';
+import { useUser } from '@clerk/clerk-react';
 
 interface Product {
     name: string;
@@ -16,6 +16,15 @@ interface LatestArrivalsProps {
     addToCart: (item: ProductDoc) => void;
 }
 
+interface Product {
+    name: string;
+    description: string;
+    price: number;
+    category: string;
+    imageUrl: string;
+    inStock: boolean;
+}
+
 interface LatestArrivalsProps {
     addToCart: (item: ProductDoc) => void;
 }
@@ -23,11 +32,8 @@ interface LatestArrivalsProps {
 const LatestArrivals: React.FC<LatestArrivalsProps> = () => {
     const [dataItems, setDataItems] = useState<ProductDoc[]>([]);
     const [cartItems, setCartItems] = useState<ProductDoc[]>([]);
-    const { data: session } = useSession();
-
-    useEffect(() => {
-        console.log("Session:", session);
-    }, [session]);
+    const { user } = useUser(); // Correctly use the hook to access user information
+    const isLoggedIn = Boolean(user)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -37,53 +43,38 @@ const LatestArrivals: React.FC<LatestArrivalsProps> = () => {
                 const data: ProductDoc[] = await res.json();
                 setDataItems(data);
             } catch (error) {
-                console.error(error);
+                setDataItems([]); // Consider setting default or empty state
             }
         };
+
         fetchData();
     }, []);
 
-    const addToCart = async (item: ProductDoc) => {
-        console.log('Attempting to add to cart:', item);
-
-        if (!session) {
-            console.error("Session is not available.");
-            alert("You must be logged in to add items to the cart.");
-            return;
+    const addToCart = (item: ProductDoc) => {
+        if (!isLoggedIn) {
+            alert("You need to be logged in to add items to the cart.");
+            return; // Exit the function if not logged in
         }
 
-        if (!session.user.accessToken) {
-            console.error("Access token is not available.");
-            alert("Access token is missing.");
-            return;
-        }
+        if (item) {
+            const existingItemsString = localStorage.getItem('cartItems');
+            const existingItems = existingItemsString ? JSON.parse(existingItemsString) : [];
 
-        try {
-            const res = await fetch('/api/cart/add', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${session.user.accessToken}` // Assuming accessToken is correctly included in the session
-                },
-                body: JSON.stringify({
-                    productId: item._id,
-                    quantity: 1
-                })
+            setDataItems(prevItems => {
+                const updatedCartItems = [...prevItems, item];
+                const serializedItem = {
+                    id: item.id,
+                    name: item.name,
+                    description: item.description,
+                    price: item.price,
+                    imageUrl: item.imageUrl
+                };
+                const newItems = [...existingItems, serializedItem];
+                localStorage.setItem('cartItems', JSON.stringify(newItems));
+                return updatedCartItems;
             });
-
-            if (!res.ok) {
-                throw new Error('Failed to add item to cart. Response not OK.');
-            }
-
-            const updatedCart = await res.json();
-            setCartItems(updatedCart.items);
-            console.log('Item added to cart:', updatedCart);
-        } catch (error) {
-            console.error("Error adding item to cart:", error);
-            alert("Failed to add item to cart.");
         }
     };
-
 
     const firstThreeItems = dataItems.slice(0, 3);
 
@@ -95,7 +86,7 @@ const LatestArrivals: React.FC<LatestArrivalsProps> = () => {
                     Explore our newest selections curated just for you. <br />
                     Discover the latest trends and timeless designs.
                 </h1>
-                <button className="border-2 border-black px-6 py-2">Shop All</button>
+                {/*  <button className="border-2 border-black px-6 py-2">Shop All</button>  */}
             </div>
 
             <div className="flex flex-row justify-evenly w-screen h-full items-center px-40 space-x-10">
@@ -106,7 +97,7 @@ const LatestArrivals: React.FC<LatestArrivalsProps> = () => {
                     >
                         <div className="flex flex-col items-start space-y-2 w-[250px] justify-evenly">
                             <img
-                                className="w-full h-auto max-h-60 object-cover"
+                                className="w-full h-auto min-h-60 max-h-96 object-cover"
                                 src={product.imageUrl}
                                 alt={product.name}
                             />
@@ -118,7 +109,7 @@ const LatestArrivals: React.FC<LatestArrivalsProps> = () => {
                                 <p className="font-bold">${product.price}</p>
                                 <button
                                     onClick={() => addToCart(product)}
-                                    className="mt-auto px-3 py-[5px] bg-[#174c55] text-white rounded-md "
+                                    className="mt-auto px-3 py-[5px] bg-black text-white"
                                 >
                                     Add to Cart
                                 </button>

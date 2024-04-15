@@ -28,8 +28,17 @@ const SearchBar: React.FC<SearchBarProps> = ({ products, onSearch, router }) => 
         setShowDropdown(query.length > 0);
     };
 
-    const openItem = (id: string) => {
-        router.push(`/products/${id}`);
+    const openItem = (id: string, name: string, description: string, price: number, category: string, imageUrl: string) => {
+        router.push({
+            pathname: `/admin/products/${id}`,
+            query: {
+                name: name,
+                description: description,
+                price: price,
+                category: category,
+                imageUrl: imageUrl
+            }
+        })
         setShowDropdown(false);
     };
 
@@ -88,26 +97,26 @@ const SearchBar: React.FC<SearchBarProps> = ({ products, onSearch, router }) => 
 
     return (
         <div className='relative'>
-            <div className='flex flex-row px-2 items-center justify-between w-full space-x-0'>
-                <img className='w-4 h-4' src='/search.png' alt='Search'></img>
+            <div className='flex flex-row items-center space-x-4 border-2 border-gray-700 rounded-md'>
+                {/* <img className='w-6 h-6' src='/search.png' alt='Search'></img> */}
                 <input
                     type="text"
-                    placeholder="Search... "
+                    placeholder="🔍 Search... "
                     value={searchTerm}
                     onChange={handleInputChange}
-                    className='text-lg rounded-md items-end px-2 w-full'
+                    className='text-lg rounded-md items-end border-none p-1 w-full'
                 />
             </div>
             {showDropdown && (
-                <div className='absolute z-10 mt-5  w-full bg-white rounded-md shadow-lg'>
-                    <ul className='py-2'>
+                <div className='absolute z-10 mt-5 ml-5 w-full bg-white rounded-md shadow-lg'>
+                    <ul className='py-1'>
                         {sortedProducts.map(product => (
                             <li
                                 key={product._id}
-                                onClick={() => openItem(product._id)}
+                                onClick={() => openItem(product._id, product.name, product.description, product.price, product.category, product.imageUrl)}
                                 className='px-4 py-2 flex items-center hover:bg-gray-100 cursor-pointer'
                             >
-                                <img src={product.imageUrl} alt={product.name} className='w-12 h-12 object-cover mr-2' />
+                                <img src={product.imageUrl} alt={product.name} className='w-8 h-8 object-center mr-2' />
                                 <span>{product.name}</span>
                             </li>
                         ))}

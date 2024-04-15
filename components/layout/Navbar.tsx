@@ -1,16 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import { signIn, signOut, useSession } from "next-auth/react";
 import SearchBar from '@/pages/SearchBar';
 import { useRouter } from 'next/router';
-import Login from '../../pages/Login';
-
-// Dynamically import useRouter to prevent server-side rendering
-interface NavbarProps {
-    cartItemCount: number;
-    products: Product[];
-}
+import { SignInButton, SignOutButton, SignedIn, SignedOut } from '@clerk/clerk-react';
+import { UserButton } from '@clerk/nextjs';
 
 interface Product {
     _id: string;
@@ -27,19 +21,7 @@ const Navbar = () => {
     const [searchResults, setSearchResults] = useState<Product[]>([]);
     const [dataItems, setDataItems] = useState<Product[]>([]);
     const [cartItems, setCartItems] = useState<Product[]>([]);
-
-    const router = useRouter(); // Correctly importing and using useRouter
-    const { data: session, status } = useSession();
-
-    const isLoggedIn = status === "authenticated";
-
-    const handleLogout = async () => {
-        const confirm = window.confirm("Are you sure you want to logout?");
-        if (confirm) {
-            await signOut({ redirect: false });
-            window.location.reload(); // Optional: Reload the page after sign out
-        }
-    };
+    const router = useRouter();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -54,7 +36,6 @@ const Navbar = () => {
         };
         fetchData();
     }, []);
-
 
     const handleSearch = (query: string) => {
         const filteredProducts = dataItems.filter(product =>
@@ -71,41 +52,32 @@ const Navbar = () => {
                 <h1>Free Shipping on all Orders between 23-28</h1>
                 <h1>Support</h1>
             </div>
-            <div className='flex flex-row items-start bg-white justify-between p-3 px-16 w-screen'>
+            <div className='flex flex-row items-start bg-white justify-between p-3 w-screen'>
                 <div className='flex flex-row items-center space-x-4'>
                     <Link legacyBehavior href="/">
                         <h1 className='font-bold'>Website</h1>
                     </Link>
-                    <h1>Store</h1>
-                    <h1>Store</h1>
-                    <h1>Store</h1>
+                    <SearchBar products={dataItems} onSearch={handleSearch} router={router} />
                 </div>
+
                 <div className='flex flex-row items-center space-x-4'>
-                    <div className='flex items-center space-x-2'>
-                        <SearchBar products={dataItems} onSearch={handleSearch} router={router} />
-                    </div>
                     <Link legacyBehavior href="/Cart">
                         <a className="flex items-center hover:scale-110 transform-all duration-500 space-x-2">
                             <img className="w-5 h-6" src="/cart.png" alt="Cart" />
                         </a>
                     </Link>
-                    <div className='flex flex-row items-center space-x-4'>
-                        {isLoggedIn ? (
-                            <>
-                                <p>Welcome, {session.user.name}</p>
-                                <button onClick={handleLogout} className="hover:underline">
-                                    Logout
-                                </button>
-                            </>
-                        ) : (
-                            <Link legacyBehavior href="/Login">
-                                <a className="hover:underline">Login</a>
-                            </Link>
-                        )}
+                    <div className='hover:underline'>
+                        <SignedOut>
+                            <SignInButton mode="modal" />  {/* Clerk SignInButton for unauthenticated users */}
+                        </SignedOut>
+                        <SignedIn>
+                            <SignOutButton />  {/* Clerk SignOutButton for authenticated users */}
+                        </SignedIn>
                     </div>
+                    <UserButton />
                 </div>
             </div>
-        </div >
+        </div>
     );
 };
 

@@ -1,13 +1,14 @@
-// pages/_app.tsx
 import { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
 import '../styles/globals.css'; // Adjust the path as needed
+import { ClerkProvider } from '@clerk/nextjs';
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
     return (
-        <SessionProvider session={session}>
+        <ClerkProvider>
             <Component {...pageProps} />
-        </SessionProvider>
+        </ClerkProvider>
+
     );
 }
 

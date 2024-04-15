@@ -11,13 +11,11 @@ import Products from '../components/ui/Products';
 import LatestArrivals from '../components/ui/LatestArrival';
 import { ProductDoc } from '@/models/Product';
 import SearchBar from './SearchBar';
-import { useSession } from 'next-auth/react';
 
 
 function Hero() {
     const [cartItems, setCartItems] = useState<ProductDoc[]>([]);
     const intervalRef = useRef(null);
-    const { data: session } = useSession();
 
 
 
@@ -29,25 +27,12 @@ function Hero() {
 
     const addToCart = async (item: ProductDoc) => {
         console.log('Attempting to add to cart:', item);
-
-        if (!session) {
-            console.error("Session is not available.");
-            alert("You must be logged in to add items to the cart.");
-            return;
-        }
-
-        if (!session.user.accessToken) {
-            console.error("Access token is not available.");
-            alert("Access token is missing.");
-            return;
-        }
-
         try {
             const res = await fetch('/api/cart/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${session.user.accessToken}` // Assuming accessToken is correctly included in the session
+                    Authorization: `Bearer ` // Assuming accessToken is correctly included in the session
                 },
                 body: JSON.stringify({
                     productId: item._id,

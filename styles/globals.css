@@ -5,3 +5,9 @@
 ::-webkit-scrollbar {
     display: none;
   }
+
+  textarea:focus, input:focus{
+    outline: none;
+    color: rgb(187, 187, 187);
+    cursor: text;
+}

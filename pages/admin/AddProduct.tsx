@@ -125,7 +125,7 @@ const AddProduct = ({ formId, productForm, forNewProduct = true }: Props) => {
 
     return (
         <div className="flex flex-col justify-center items-center h-screen">
-            <div className="absolute justify-start w-full top-0">
+            <div className="absolute justify-start w-full top-1 left-1">
                 <Link legacyBehavior href="/admin/Admin">
                     <button
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">

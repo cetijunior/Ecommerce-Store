@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import '@/styles/globals.css'
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import SearchBar from '../../pages/SearchBar';
+import SearchBar from '@/pages/admin/SearchBar';
 
 interface Product {
     _id: string;
@@ -88,15 +88,30 @@ const Products = () => {
     };
 
 
+
+    const openItem = (id: string, name: string, description: string, price: number, category: string, imageUrl: string) => {
+        router.push({
+            pathname: `/admin/products/${id}`,
+            query: {
+                name: name,
+                description: description,
+                price: price,
+                category: category,
+                imageUrl: imageUrl
+            }
+        })
+    };
+
     return (
         <div className='h-screen'>
             <div className='flex flex-col space-y-5  w-full h-fit pb-4 border-b-4 border-gray-600'>
                 <h1 className='text-4xl text-center font-semibold pt-14'>
-                    Products
+                    Products:
                 </h1>
                 <div className='flex flex-row justify-center w-screen h-full items-center space-x-4'>
                     <Link legacyBehavior href='/admin/AddProduct'>
-                        <button className=' px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors'>
+                        <button
+                            className=' px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors'>
                             Add Product
                         </button>
                     </Link>
@@ -108,7 +123,9 @@ const Products = () => {
             <div className='flex flex-row justify-between w-screen h-fit overflow-x-scroll items-center px-10 pb-10 mt-20 space-x-10'>
                 {dataItems.map((product, index) => (
                     <div key={index} className='flex flex-col shadow-2xl hover:scale-105 rounded-[15px] bg-gray-200 p-4 items-end justify-between transition-all duration-300'>
-                        <div className="flex flex-col items-start space-y-2 w-[250px] justify-evenly">
+                        <div key={product._id}
+                            onClick={() => openItem(product._id, product.name, product.description, product.price, product.category, product.imageUrl)}
+                            className="flex flex-col items-start space-y-2 w-[250px] justify-evenly">
                             <img
                                 className='w-full max-h-40 object-cover'
                                 src={product.imageUrl}
