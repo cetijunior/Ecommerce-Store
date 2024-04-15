@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from 'react';
 import { ProductDoc } from '@/models/Product';
+import { useSession } from 'next-auth/react';
 
 interface Product {
     name: string;
@@ -13,15 +14,6 @@ interface Product {
 
 interface LatestArrivalsProps {
     addToCart: (item: ProductDoc) => void;
-}
-
-interface Product {
-    name: string;
-    description: string;
-    price: number;
-    category: string;
-    imageUrl: string;
-    inStock: boolean;
 }
 
 interface LatestArrivalsProps {
@@ -31,6 +23,11 @@ interface LatestArrivalsProps {
 const LatestArrivals: React.FC<LatestArrivalsProps> = () => {
     const [dataItems, setDataItems] = useState<ProductDoc[]>([]);
     const [cartItems, setCartItems] = useState<ProductDoc[]>([]);
+    const { data: session } = useSession();
+
+    useEffect(() => {
+        console.log("Session:", session);
+    }, [session]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -46,35 +43,44 @@ const LatestArrivals: React.FC<LatestArrivalsProps> = () => {
         fetchData();
     }, []);
 
-    const addToCart = (item: ProductDoc) => {
-        // Check if the item is not empty
-        if (item) {
-            // Retrieve existing items from localStorage
-            const existingItemsString = localStorage.getItem('cartItems');
-            const existingItems = existingItemsString ? JSON.parse(existingItemsString) : [];
+    const addToCart = async (item: ProductDoc) => {
+        console.log('Attempting to add to cart:', item);
 
-            // Update the cartItems state to include the new item
-            setCartItems(prevItems => {
-                const updatedCartItems = [...prevItems, item];
+        if (!session) {
+            console.error("Session is not available.");
+            alert("You must be logged in to add items to the cart.");
+            return;
+        }
 
-                // Serialize only the necessary properties of the new item
-                const serializedItem = {
-                    id: item.id, // Assuming 'id' is the unique identifier of the product
-                    name: item.name,
-                    description: item.description,
-                    price: item.price,
-                    imageUrl: item.imageUrl
-                    // Add other necessary properties as needed
-                };
+        if (!session.user.accessToken) {
+            console.error("Access token is not available.");
+            alert("Access token is missing.");
+            return;
+        }
 
-                // Combine the new item with the existing items
-                const newItems = [...existingItems, serializedItem];
-
-                // Update localStorage with the combined items
-                localStorage.setItem('cartItems', JSON.stringify(newItems));
-
-                return updatedCartItems;
+        try {
+            const res = await fetch('/api/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${session.user.accessToken}` // Assuming accessToken is correctly included in the session
+                },
+                body: JSON.stringify({
+                    productId: item._id,
+                    quantity: 1
+                })
             });
+
+            if (!res.ok) {
+                throw new Error('Failed to add item to cart. Response not OK.');
+            }
+
+            const updatedCart = await res.json();
+            setCartItems(updatedCart.items);
+            console.log('Item added to cart:', updatedCart);
+        } catch (error) {
+            console.error("Error adding item to cart:", error);
+            alert("Failed to add item to cart.");
         }
     };
 

@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 
-import '@/app/globals.css'
+import '@/styles/globals.css'
 
 import { ProductDoc } from '@/models/Product';
 import { useRouter } from 'next/navigation';
@@ -42,6 +42,11 @@ const Products = () => {
     }, []);
 
 
+    const openItem = (id: string) => {
+        router.push(`/products/${id}`);
+    };
+
+
     const addToCart = (item: ProductDoc) => {
         // Check if the item is not empty
         if (item) {
@@ -75,9 +80,6 @@ const Products = () => {
     };
 
 
-    const openItem = (id: string) => {
-        router.push(`/products/${id}`);
-    };
 
     return (
         <div className='h-full pb-14'>
@@ -108,7 +110,7 @@ const Products = () => {
                                     <p className='font-bold'>${product.price}</p>
                                     <button
                                         onClick={() => addToCart(product)}
-                                        className="mt-auto px-3 py-[5px] bg-[#174c55] text-white rounded-md "
+                                        className="mt-auto z-10 px-3 py-[5px] bg-[#174c55] text-white rounded-md "
                                     >
                                         Add to Cart
                                     </button>

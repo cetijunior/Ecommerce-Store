@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "typeRoots": ["./types", "./node_modules/@types"],
+    "types": ["next-auth"],
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -25,12 +27,14 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
+    "types/**/*.d.ts",
     ".next/types/**/*.ts",
     "pages/movies.jsj",
     "lib/dbConnect.js",
     "pages/api/pets/index.js",
     "lib/dbConnect.js",
-    "pages/admin/EditProduct/[id].js"
+    "pages/admin/EditProduct/[id].js",
+    "models/UserModel.js"
   ],
   "exclude": ["node_modules"]
 }

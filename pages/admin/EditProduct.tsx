@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import '@/app/globals.css'
+import '@/styles/globals.css'
 import { useRouter } from "next/router";
 import { mutate } from "swr";
 import Link from "next/link";
@@ -121,7 +121,7 @@ const ProductForm = ({ formId }: { formId: string }) => {
                 </Link>
             </div>
             <form id={formId} onSubmit={handleSubmit} className='flex flex-col bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-lg'>
-                <h2 className="text-2xl font-semibold text-center mb-6">Edit Product, {id}</h2>
+                <h2 className="text-2xl font-semibold text-center mb-6">Edit, {form.name}</h2>
                 <input
                     type="text"
                     name="name"
@@ -166,6 +166,9 @@ const ProductForm = ({ formId }: { formId: string }) => {
                     required
                     className="mb-4 px-3 py-2 border rounded shadow-sm focus:outline-none focus:shadow-outline"
                 />
+                <div className="flex items-center justify-center w-full">
+                    <img className="w-20 rounded-lg" src={form.imageUrl}></img>
+                </div>
                 <div className="flex items-center mb-6">
                     <input
                         type="checkbox"

@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import '@/app/globals.css'
+import '@/styles/globals.css'
 
 
 interface AdminLoginProps {

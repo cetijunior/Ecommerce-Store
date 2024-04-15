@@ -1,7 +1,9 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable @next/next/no-img-element */
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { mutate } from "swr";
-import '@/app/globals.css'
+import '@/styles/globals.css'
 import Link from "next/link";
 
 interface FormData {
@@ -124,7 +126,7 @@ const AddProduct = ({ formId, productForm, forNewProduct = true }: Props) => {
     return (
         <div className="flex flex-col justify-center items-center h-screen">
             <div className="absolute justify-start w-full top-0">
-                <Link href="/admin/Admin">
+                <Link legacyBehavior href="/admin/Admin">
                     <button
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                         Back To Admin Page
@@ -178,6 +180,9 @@ const AddProduct = ({ formId, productForm, forNewProduct = true }: Props) => {
                         required
                         className="mb-4 px-3 py-2 border rounded shadow-sm focus:outline-none focus:shadow-outline"
                     />
+                    <div className="flex items-center justify-center w-full">
+                        <img className="w-20 rounded-lg" src={form.imageUrl}></img>
+                    </div>
                     <div className="flex items-center mb-6">
                         <input
                             type="checkbox"

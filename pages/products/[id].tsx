@@ -1,16 +1,25 @@
-import '@/app/globals.css'
+/* eslint-disable @next/next/no-img-element */
+import '@/styles/globals.css'
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import '@/app/globals.css'
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { ProductDoc } from '@/models/Product';
+
+interface Product {
+    _id: string;
+    name: string;
+    description: string;
+    price: number;
+    category: string;
+    imageUrl: string;
+    inStock: boolean;
+}
 
 const ProductPage = () => {
     const router = useRouter();
     const { id } = router.query;
-    const [product, setProduct] = useState(null);
-    const [cartItems, setCartItems] = useState<ProductDoc[]>([]);
+    const [product, setProduct] = useState<Product | null>(null);
+    const [cartItems, setCartItems] = useState<Product[]>([]);
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -32,14 +41,14 @@ const ProductPage = () => {
         }
     }, [id]);
 
-    const addToCart = (item: ProductDoc) => {
+    const addToCart = (item: Product) => {
         // Check if the item is not empty
         if (item) {
             setCartItems(prevItems => {
                 const updatedCartItems = [...prevItems, item];
                 // Serialize only the necessary properties
                 const serializedItems = updatedCartItems.map(item => ({
-                    id: item.id, // Assuming 'id' is the unique identifier of the product
+                    id: item._id, // Assuming 'id' is the unique identifier of the product
                     name: item.name,
                     description: item.description,
                     price: item.price,
@@ -58,8 +67,6 @@ const ProductPage = () => {
         }
     };
 
-
-
     if (!product) {
         return <div className="flex justify-center items-center h-screen">Loading...</div>;
     }
@@ -70,17 +77,18 @@ const ProductPage = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <img
-                        className="w-full rounded-lg shadow-lg"
+                        className="w-full max-h-[500px] object-cover rounded-lg shadow-lg"
                         src={product.imageUrl}
                         alt={product.name}
                     />
                     <div className='flex flex-col h-full justify-evenly'>
                         {product && (
                             <>
-                                <h1 className="text-3xl font-bold text-gray-900">{product.name}</h1>
-                                <p className="mt-2 text-sm text-gray-500">{product.category}</p>
-                                <p className="mt-2 text-lg text-gray-900">${product.price.toFixed(2)}</p>
-                                <p className="mt-4 text-sm text-gray-600">{product.description}</p>
+                                <h1 className="text-5xl font-bold text-gray-900">{product.name}</h1>
+                                <p className="mt-4 text-xl text-gray-900">Description: <br /> {product.description}</p>
+                                <p className="mt-2 text-lg text-gray-700">
+                                    <span className='font-bold text-black'> Category: </span>  {product.category}</p>
+                                <p className="mt-2 text-3xl font-bold text-gray-900">${product.price.toFixed(2)}</p>
                                 <button
                                     className="mt-4 w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-black"
                                     onClick={() => addToCart(product)}

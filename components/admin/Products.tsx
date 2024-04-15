@@ -1,8 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from 'react';
-import '@/app/globals.css'
+import '@/styles/globals.css'
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import SearchBar from '../../pages/SearchBar';
 
 interface Product {
     _id: string;
@@ -15,9 +16,12 @@ interface Product {
 }
 
 const Products = () => {
-    const [dataItems, setDataItems] = useState<Product[]>([]);
     const router = useRouter();
     const [productId, setProductId] = useState<string>('');
+    const [searchResults, setSearchResults] = useState<Product[]>([]);
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const [dataItems, setDataItems] = useState<Product[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -47,6 +51,27 @@ const Products = () => {
         });
     };
 
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchTerm(event.target.value);
+        filterResults(event.target.value);
+    };
+
+    const handleSearch = (query: string) => {
+        const filteredProducts = dataItems.filter(product =>
+            product.name.toLowerCase().includes(query.toLowerCase())
+        );
+        setSearchResults(filteredProducts);
+        setSearchTerm(query);
+    };
+
+
+    const filterResults = (term: string) => {
+        const filteredResults = dataItems.filter((product: { name: string }) =>
+            product.name.toLowerCase().includes(term.toLowerCase())
+        );
+        setSearchResults(filteredResults);
+    };
+
 
 
     const handleDelete = async (id: string) => {
@@ -69,17 +94,13 @@ const Products = () => {
                 <h1 className='text-4xl text-center font-semibold pt-14'>
                     Products
                 </h1>
-                <div className='flex flex-row justify-center w-screen h-full items-center px-40 space-x-10'>
-                    <Link href='/admin/AddProduct'>
+                <div className='flex flex-row justify-center w-screen h-full items-center space-x-4'>
+                    <Link legacyBehavior href='/admin/AddProduct'>
                         <button className=' px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors'>
                             Add Product
                         </button>
                     </Link>
-                    <Link href=''>
-                        <button className='px-4 py-2 bg-gray-200 text-black rounded hover:bg-blue-300 transition-colors'>
-                            🔍 Search
-                        </button>
-                    </Link>
+                    <SearchBar products={dataItems} onSearch={handleSearch} router={router} />
                 </div>
             </div>
 
