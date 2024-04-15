@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import '@/styles/globals.css'
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import SearchBar from '@/pages/admin/SearchBar';
+import SearchBar from '@/components/admin/SearchBar';
 
 interface Product {
     _id: string;

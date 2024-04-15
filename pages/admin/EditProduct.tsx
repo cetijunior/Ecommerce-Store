@@ -55,17 +55,18 @@ const ProductForm = ({ formId }: { formId: string }) => {
 
     useEffect(() => {
         if (id) {
-            setForm({
-                ...form,
+            setForm(prevForm => ({
+                ...prevForm,
                 _id: id as string,
                 name: initialName || '',
                 description: initialDescription || '',
                 price: initialPrice ? parseFloat(initialPrice as string) : 0,
                 category: initialCategory || '',
                 imageUrl: initialImageUrl || ''
-            });
+            }));
         }
-    }, [form, id, initialCategory, initialDescription, initialImageUrl, initialName, initialPrice, router.query]);
+        // You might want to remove `router.query` unless specific query parameters are expected to change
+    }, [id, initialName, initialDescription, initialPrice, initialCategory, initialImageUrl]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value, type, checked } = e.target as HTMLInputElement;

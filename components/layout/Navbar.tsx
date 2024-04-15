@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import SearchBar from '@/pages/SearchBar';
+import SearchBar from '@/components/ui/SearchBar';
 import { useRouter } from 'next/router';
 import { SignInButton, SignOutButton, SignedIn, SignedOut } from '@clerk/clerk-react';
 import { UserButton } from '@clerk/nextjs';

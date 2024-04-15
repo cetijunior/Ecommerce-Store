@@ -36,8 +36,6 @@ const AdminPage = () => {
         }
     }, []);
 
-    console.log(UserProfile)
-
     return (
         <div className='flex flex-col'>
             <header className="bg-gray-800 p-4">

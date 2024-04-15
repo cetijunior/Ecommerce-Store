@@ -17,7 +17,7 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
         if (loggedInUser) {
             onLogin(loggedInUser);
         }
-    }, []);
+    }, [onLogin]);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();

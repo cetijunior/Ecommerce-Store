@@ -31,7 +31,6 @@ export default function SignIn() {
             }
 
             const userData = await response.json();
-            console.log("Login successful:", userData);
             router.push(`/ ${status}`);
             window.location.href = '/';
 

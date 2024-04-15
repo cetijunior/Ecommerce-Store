@@ -98,7 +98,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ products, onSearch, router }) => 
     return (
         <div className='relative'>
             <div className='flex flex-row items-center space-x-4 border-2 border-gray-700 rounded-md'>
-                {/* <img className='w-6 h-6' src='/search.png' alt='Search'></img> */}
                 <input
                     type="text"
                     placeholder="🔍 Search... "
