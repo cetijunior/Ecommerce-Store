@@ -1,10 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import SearchBar from '@/components/ui/SearchBar';
 import { useRouter } from 'next/router';
 import { SignInButton, SignOutButton, SignedIn, SignedOut } from '@clerk/clerk-react';
 import { UserButton } from '@clerk/nextjs';
+import { useUser } from '@clerk/clerk-react';
+
 
 interface Product {
     _id: string;
@@ -22,6 +24,10 @@ const Navbar = () => {
     const [dataItems, setDataItems] = useState<Product[]>([]);
     const [cartItems, setCartItems] = useState<Product[]>([]);
     const router = useRouter();
+
+    const dropdownRef = useRef<HTMLDivElement>(null);
+    const { user } = useUser();
+    const isLoggedIn = Boolean(user)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -45,6 +51,16 @@ const Navbar = () => {
         setSearchTerm(query);
     };
 
+    const handleCart = () => {
+        if (!isLoggedIn) {
+            alert("You need to be logged in to open the Cart",)
+            console.log(user);
+            return;
+        }
+        router.push('/Cart');
+    };
+
+
     return (
         <div className='sticky top-0 z-50 cursor-pointer flex flex-col items-start justify-between border-b-2 border-gray-400 w-full'>
             <div className='flex flex-row items-center w-screen justify-evenly text-sm py-2 bg-black text-white'>
@@ -60,12 +76,10 @@ const Navbar = () => {
                     <SearchBar products={dataItems} onSearch={handleSearch} router={router} />
                 </div>
 
-                <div className='flex flex-row items-center space-x-4'>
-                    <Link legacyBehavior href="/Cart">
-                        <a className="flex items-center hover:scale-110 transform-all duration-500 space-x-2">
-                            <img className="w-5 h-6" src="/cart.png" alt="Cart" />
-                        </a>
-                    </Link>
+                <div onClick={handleCart} className='flex flex-row items-center space-x-4'>
+                    <a className="flex items-center hover:scale-110 transform-all duration-500 space-x-2">
+                        <img className="w-5 h-6" src="/cart.png" alt="Cart" />
+                    </a>
                     <div className='hover:underline'>
                         <SignedOut>
                             <SignInButton mode="modal" />  {/* Clerk SignInButton for unauthenticated users */}

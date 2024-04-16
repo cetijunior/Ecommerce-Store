@@ -1,10 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
-
 import '@/styles/globals.css'
 
 import { ProductDoc } from '@/models/Product';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import { useUser, UserProfile } from '@clerk/clerk-react';
+import React, { useEffect, useState, useRef } from 'react';
 
 interface Product {
     _id: string;
@@ -25,7 +25,10 @@ const Products = () => {
 
     const [dataItems, setDataItems] = useState<ProductDoc[]>([]);
     const [cartItems, setCartItems] = useState<ProductDoc[]>([]);
-    const router = useRouter(); // Initialize the useRouter hook
+    const router = useRouter();
+    const dropdownRef = useRef<HTMLDivElement>(null);
+    const { user } = useUser();
+    const isLoggedIn = Boolean(user)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -43,6 +46,11 @@ const Products = () => {
 
 
     const openItem = (id: string) => {
+        if (!isLoggedIn) {
+            alert("You need to be logged in to open the item Cards",)
+            console.log(user);
+            return;
+        }
         router.push(`/products/${id}`);
     };
 

@@ -1,5 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useUser, UserProfile } from '@clerk/clerk-react';
+
 
 interface Product {
     _id: string;
@@ -20,6 +22,24 @@ interface SearchBarProps {
 const SearchBar: React.FC<SearchBarProps> = ({ products, onSearch, router }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [showDropdown, setShowDropdown] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+    const { user } = useUser();
+    const isLoggedIn = Boolean(user)
+    const primaryEmailAddress = user?.primaryEmailAddress?.emailAddress
+
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setShowDropdown(false);  // Close the dropdown if click is outside
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const query = event.target.value;
@@ -29,6 +49,11 @@ const SearchBar: React.FC<SearchBarProps> = ({ products, onSearch, router }) => 
     };
 
     const openItem = (id: string) => {
+        if (!isLoggedIn) {
+            alert("You need to be logged in to open the item Cards",)
+            console.log(user);
+            return; // Exit the function if not logged in
+        }
         router.push(`/products/${id}`);
         setShowDropdown(false);
     };
@@ -98,22 +123,26 @@ const SearchBar: React.FC<SearchBarProps> = ({ products, onSearch, router }) => 
                     className='text-lg rounded-md items-end px-2 w-full'
                 />
             </div>
-            {showDropdown && (
-                <div className='absolute z-10 mt-5  w-full bg-white rounded-md shadow-lg'>
-                    <ul className='py-2'>
-                        {sortedProducts.map(product => (
-                            <li
-                                key={product._id}
-                                onClick={() => openItem(product._id)}
-                                className='px-4 py-2 flex items-center hover:bg-gray-100 cursor-pointer'
-                            >
-                                <img src={product.imageUrl} alt={product.name} className='w-12 h-12 object-cover mr-2' />
-                                <span>{product.name}</span>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            )}
+            <div onClick={() => setShowDropdown(false)}>
+                {showDropdown && (
+                    <div className='absolute z-10 mt-5 w-[300px] bg-white rounded-md shadow-lg'>
+                        <ul className='p-4 space-y-2'>
+                            {sortedProducts.map(product => (
+                                <div key={product._id} className='flex flex-row items-center hover:scale-105 hover:bg-gray-100 transition-all duration-300 cursor-pointer justify-start h-full'>
+                                    <li
+                                        onClick={() => openItem(product._id)}
+                                        className='shadow-md px-4 py-2 flex items-center w-full rounded-l-md rounded-r-sm'
+                                    >
+                                        <img src={product.imageUrl} alt={product.name} className='w-12 h-12 object-cover mr-2' />
+                                        <span>{product.name}</span>
+                                    </li>
+                                    <div className='h-16 w-4 shadow-md rounded-r-md bg-black'></div>
+                                </div>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };
