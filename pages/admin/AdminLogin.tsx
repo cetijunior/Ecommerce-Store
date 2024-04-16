@@ -21,7 +21,7 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (username === '123' && password === '123') {
+        if (username === 'CJ' && password === 'CJecomDB') {
             localStorage.setItem('adminUser', username);
             onLogin(username);
         } else {

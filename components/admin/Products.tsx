@@ -120,7 +120,7 @@ const Products = () => {
             </div>
 
 
-            <div className='flex flex-row justify-between w-screen h-fit overflow-x-scroll items-center px-10 pb-10 mt-20 space-x-10'>
+            <div className='flex flex-row justify-between w-screen h-fit overflow-x-scroll items-center px-10 pb-10 mt-10 space-x-10'>
                 {dataItems.map((product, index) => (
                     <div key={index} className='flex flex-col shadow-2xl hover:scale-105 rounded-[15px] bg-gray-200 p-4 items-end justify-between transition-all duration-300'>
                         <div key={product._id}
@@ -131,9 +131,10 @@ const Products = () => {
                                 src={product.imageUrl}
                                 alt={product.name}
                             />
-                            <div className='flex flex-col items-start h-[200px] justify-evenly w-full'>
+                            <div className='flex flex-col items-start h-[250px] justify-evenly w-full'>
                                 <h2 className='text-xl font-semibold opacity-80'>{product.name}</h2>
                                 <p className='opacity-85'>{product.description}</p>
+                                <p className=''>Category: {product.category}</p>
                                 <div className='flex flex-row items-center justify-between w-full '>
                                     <p className='font-bold'>${product.price}</p>
                                 </div>

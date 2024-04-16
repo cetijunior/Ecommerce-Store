@@ -44,13 +44,16 @@ const AdminPage = () => {
                         <h1 className="text-white text-2xl font-semibold">Admin Dashboard</h1>
                         <UserButton />
                     </div>
-                    <div className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                        <SignedOut>
-                            <SignInButton mode="modal" />  {/* Clerk SignInButton for unauthenticated users */}
-                        </SignedOut>
-                        <SignedIn>
-                            <SignOutButton />  {/* Clerk SignOutButton for authenticated users */}
-                        </SignedIn>
+                    <div className="flex flex-row space-x-4 items-center">
+                        <button onClick={handleLogout} className='py-2 px-4 rounded focus:outline-none focus:shadow-outline bg-red-500 hover:bg-red-700 text-white font-bold'>LogOut</button>
+                        <div className='py-2 px-4 rounded focus:outline-none focus:shadow-outline bg-red-500 hover:bg-red-700 text-white font-bold'>
+                            <SignedOut>
+                                <SignInButton mode="modal" />  {/* Clerk SignInButton for unauthenticated users */}
+                            </SignedOut>
+                            <SignedIn>
+                                <SignOutButton />  {/* Clerk SignOutButton for authenticated users */}
+                            </SignedIn>
+                        </div>
                     </div>
                 </div>
             </header>
