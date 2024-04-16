@@ -76,8 +76,8 @@ const Navbar = () => {
                     <SearchBar products={dataItems} onSearch={handleSearch} router={router} />
                 </div>
 
-                <div onClick={handleCart} className='flex flex-row items-center space-x-4'>
-                    <a className="flex items-center hover:scale-110 transform-all duration-500 space-x-2">
+                <div className='flex flex-row items-center space-x-4'>
+                    <a onClick={handleCart} className="flex items-center hover:scale-110 transform-all duration-500 space-x-2">
                         <img className="w-5 h-6" src="/cart.png" alt="Cart" />
                     </a>
                     <div className='hover:underline'>
