@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import SearchBar from '@/components/ui/SearchBar';
 import { useRouter } from 'next/router';
 import { SignInButton, SignOutButton, SignedIn, SignedOut } from '@clerk/clerk-react';
-import { UserButton } from '@clerk/nextjs';
+import { UserButton } from '@clerk/clerk-react';
 import { useUser } from '@clerk/clerk-react';
 
 
@@ -80,10 +80,12 @@ const Navbar = () => {
                             </a>
                             <div className='ml-4'>
                                 <SignedOut>
-                                    <SignInButton mode="modal" className="bg-gray-100 text-gray-800 rounded-md px-4 py-2">Sign in</SignInButton>
+                                    <SignInButton mode="modal">Sign in</SignInButton>
                                 </SignedOut>
+                                {/*class="bg-gray-100 text-gray-800 rounded-md px-4 py-2" */}
                             </div>
-                            <UserButton className="ml-4" />
+                              {/*className="ml-4" */}
+                            <UserButton />
                         </div>
                     </div>
                 </div>
