@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useRef, useState } from 'react';
 
 interface HeroImg {
@@ -9,7 +8,7 @@ interface HeroImg {
 function Carousel() {
     const [images, setImages] = useState<HeroImg[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [direction, setDirection] = useState('next'); // New state to track the direction of the slide
+    const [direction, setDirection] = useState('next');
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
     const fetchImages = async () => {
@@ -45,7 +44,6 @@ function Carousel() {
 
     useEffect(() => {
         return () => {
-            // eslint-disable-next-line react-hooks/exhaustive-deps
             if (intervalRef.current) clearInterval(intervalRef.current);
         };
     }, []);
@@ -60,18 +58,17 @@ function Carousel() {
 
     useEffect(() => {
         const timeoutId = setTimeout(() => {
-            // Remove the transition class to snap the image back after the transition
             setDirection('reset');
         }, 500); // Match the duration to your CSS transition
         return () => clearTimeout(timeoutId);
     }, [currentIndex]);
 
     return (
-        <div className='relative flex flex-col items-center w-screen h-full overflow-hidden'>
+        <div className='relative flex flex-col items-center w-full h-full overflow-hidden'>
             <img
                 src={images[currentIndex]?.imageUrl}
                 alt={images[currentIndex]?.alt}
-                className={`w-screen h-[41rem] object-cover transition-transform duration-500`}
+                className={`w-full h-auto sm:h-[32rem] md:h-[36rem] lg:h-[41rem] object-cover transition-transform duration-500`}
             />
             <a
                 onClick={goToPrevious}

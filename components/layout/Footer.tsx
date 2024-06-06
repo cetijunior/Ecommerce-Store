@@ -2,16 +2,19 @@ import React from 'react';
 
 function Footer() {
     return (
-        <div>
-            <div className='flex flex-row border-t-2 border-gray-400 items-start justify-between p-20 mt-10 w-full'>
+        <div className='pt-10 mt-10 border-t-2 border-gray-400 w-screen'>
+            <div className='lg:flex lg:flex-row flex-col lg:pb-8 lg:px-10 px-6 pb-4 space-y-10 lg:items-start items-start lg:justify-evenly'>
+
                 <div className='space-y-3'>
-                    <h1 className='text-3xl text-center font-bold'>Join Our Newsletter</h1>
-                    <p>Get exclusive access to our latest news and specials.</p>
-                    <div className='flex flex-row justify-between items-center border-2 hover:border-black p-2 w-full'>
-                        <input className='w-full p-2' type="text" placeholder="Enter your email address" />
-                        <button className='font-bold p-2'>Subscribe</button>
+                    <h1 className='lg:text-3xl text-xl lg:text-left text-center font-bold'>Join Our Newsletter</h1>
+                    <p className='lg-w-full text-center text-wrap lg:text-left'>Get exclusive access to our latest news and specials.</p>
+                    <div className='flex flex-col lg:flex-row lg:justify-start items-center lg:space-x-2 lg:w-auto mx-auto'>
+                        <input className='lg:w-full w-full max-w-[300px] border-2 p-2 mb-2 lg:mb-0' type="text" placeholder="Enter your email address" />
+                        <button className='font-bold p-2 bg-black text-white hover:bg-gray-800'>Subscribe</button>
                     </div>
                 </div>
+                
+                
                 <div className='flex flex-col space-y-4'>
                     <h1 className='font-bold'>Services</h1>
                     <div>
@@ -40,7 +43,7 @@ function Footer() {
                     </div>
                 </div>
             </div>
-            <div className='flex flex-row items-center w-screen justify-evenly text-sm py-8 bg-black text-white'>
+            <div className='flex flex-row w-screen items-center justify-center lg:text-sm text-sm text-wrap py-8 bg-black text-white'>
                 <p>© {new Date().getFullYear()} Your Company Name. All rights reserved.</p>
             </div>
         </div>

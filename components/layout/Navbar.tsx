@@ -62,37 +62,39 @@ const Navbar = () => {
 
 
     return (
-        <div className='sticky top-0 z-50 cursor-pointer flex flex-col items-start justify-between border-b-2 border-gray-400 w-full'>
-            <div className='flex flex-row items-center w-screen justify-evenly text-sm py-2 bg-black text-white'>
-                <h1>USD</h1>
-                <h1>Free Shipping on all Orders between 23-28</h1>
-                <h1>Support</h1>
+        <nav className="sticky top-0 z-50 w-full bg-white shadow-2xl transform-all duration-300">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex justify-between items-center h-16">
+                    <div className="flex-shrink-0">
+                        <Link href="/" passHref>
+                            <h1 className='font-bold cursor-pointer'>Website</h1>
+                        </Link>
+                    </div>
+                    <div className="flex">
+                        <div className="hidden lg:flex lg:items-center lg:ml-6">
+                            <SearchBar products={dataItems} onSearch={handleSearch} router={router} />
+                        </div>
+                        <div className="ml-6 flex items-center">
+                            <a onClick={handleCart} className="text-gray-500 hover:text-gray-700">
+                                <img className="w-5 h-6" src="/cart.png" alt="Cart" />
+                            </a>
+                            <div className='ml-4'>
+                                <SignedOut>
+                                    <SignInButton mode="modal" className="bg-gray-100 text-gray-800 rounded-md px-4 py-2">Sign in</SignInButton>
+                                </SignedOut>
+                            </div>
+                            <UserButton className="ml-4" />
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div className='flex flex-row items-start bg-white justify-between p-3 w-screen'>
-                <div className='flex flex-row items-center space-x-4'>
-                    <Link legacyBehavior href="/">
-                        <h1 className='font-bold'>Website</h1>
-                    </Link>
+            <div className="lg:hidden">
+                <div className="px-2 pt-2 pb-3 space-y-1">
                     <SearchBar products={dataItems} onSearch={handleSearch} router={router} />
                 </div>
-
-                <div className='flex flex-row items-center space-x-4'>
-                    <a onClick={handleCart} className="flex items-center hover:scale-110 transform-all duration-500 space-x-2">
-                        <img className="w-5 h-6" src="/cart.png" alt="Cart" />
-                    </a>
-                    <div className='hover:underline'>
-                        <SignedOut>
-                            <SignInButton mode="modal" />  {/* Clerk SignInButton for unauthenticated users */}
-                        </SignedOut>
-                        <SignedIn>
-                            <SignOutButton />  {/* Clerk SignOutButton for authenticated users */}
-                        </SignedIn>
-                    </div>
-                    <UserButton />
-                </div>
             </div>
-        </div>
+        </nav>
     );
-};
+}
 
 export default Navbar;

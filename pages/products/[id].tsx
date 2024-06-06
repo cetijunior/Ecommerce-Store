@@ -64,6 +64,7 @@ const ProductPage = () => {
                 localStorage.setItem('cartItems', JSON.stringify(newItems));
                 return updatedCartItems;
             });
+            router.push('/Cart');
         }
     };
 

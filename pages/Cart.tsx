@@ -74,36 +74,27 @@ const Cart: React.FC = () => {
         router.push(`/products/${id}`);
     };
 
-    return (
-        <div className='flex flex-col h-screen'>
+   return (
+        <div className="flex flex-col min-h-screen">
             <Navbar />
 
-            <div className="flex flex-row h-full py-8">
-                <div className=" w-1/2 p-8 h-full overflow-y-scroll border-r-2 border-t-2 border-b-2 mb-20">
-                    <h2 className="text-4xl font-semibold mb-4">Your Cart</h2>
-                    <h2 className="text-xl opacity-60 font-semibold mb-4">Not ready to checkout? Continue Shopping</h2>
+            <div className="flex flex-col lg:flex-row flex-grow">
+                {/* Cart Items */}
+                <div className="lg:w-1/2 bg-white p-8 border-b lg:border-b-0 lg:border-r">
+                    <h2 className="text-3xl font-semibold mb-6">Your Cart</h2>
                     {cartItems.length > 0 ? (
-                        <ul className="divide-y overflow-auto h-full divide-gray-300">
+                        <ul className="divide-y divide-gray-200">
                             {cartItems.map((product, index) => (
-                                <li key={index} className="flex flex-row items-center justify-between py-4">
-                                    <div className="flex flex-row items-center space-x-4 hover:opacity-70 transform-all duration-300">
-                                        <img src={product.imageUrl} alt={product.name} className="w-36 h-36 object-cover rounded" />
-                                        <div className="flex flex-col items-start space-y-3 justify-start h-full">
-                                            <p className="text-3xl font-bold">{product.name}</p>
-                                            <p className="text-gray-500 w-[300px]">{product.description}</p>
-                                            <p className="text-2xl font-bold text-gray-800">${product.price}</p>
-
+                                <li key={index} className="py-6 flex flex-row items-center justify-between">
+                                    <div className="flex items-center space-x-4">
+                                        <img src={product.imageUrl} alt={product.name} className="w-24 h-24 object-cover rounded-md" />
+                                        <div>
+                                            <h3 className="text-lg font-semibold">{product.name}</h3>
+                                            <p className="text-sm text-gray-500  max-w-[350px]">{product.description}</p>
+                                            <p className="text-lg font-semibold">${product.price}</p>
                                         </div>
                                     </div>
-                                    <div className="flex flex-col items-end space-y-2">
-                                        <h1 className="font-semibold">
-                                            by Vendor Name
-                                        </h1>
-                                        <h1 onClick={() => removeFromCart(index)}
-                                            className="underline hover:font-bold cursor-pointer font-semibold">
-                                            Remove
-                                        </h1>
-                                    </div>
+                                    <button onClick={() => removeFromCart(index)} className="text-red-500 hover:text-red-600 underline">Remove</button>
                                 </li>
                             ))}
                         </ul>
@@ -112,27 +103,24 @@ const Cart: React.FC = () => {
                     )}
                 </div>
 
-                <div className="w-1/2 flex flex-col h-full items-center justify-center">
-
-                    <div className="w-1/2 flex flex-col items-start justify-start mt-24 space-y-5 h-full">
-                        <h1 className="text-center text-2xl font-bold">
-                            Order Summary
-                        </h1>
-                        <div className="flex flex-row justify-between w-full">
-                            <h1>Subtotal</h1>
-                            <h1>${roundedSubTotal}</h1>
+                {/* Order Summary */}
+                <div className="lg:w-1/2 bg-gray-100 p-8 border-b lg:border-b-0">
+                    <h2 className="text-3xl font-semibold mb-6">Order Summary</h2>
+                    <div className="flex flex-col space-y-4">
+                        <div className="flex justify-between">
+                            <span>Subtotal</span>
+                            <span>${roundedSubTotal}</span>
                         </div>
-                        <div className="flex flex-row justify-between w-full">
-                            <h1>Shipping</h1>
-                            <h1 className="opacity-80">Calculated at the next step</h1>
+                        <div className="flex justify-between">
+                            <span>Shipping</span>
+                            <span className="text-sm text-gray-500">Calculated at the next step</span>
                         </div>
-                        <div className='w-full border-2 border-black text-white'></div>
-                        <div className="flex flex-row justify-between w-full">
-                            <h1>Total</h1>
-                            <h1>${roundedTotal}</h1>
+                        <div className="border-t border-gray-300"></div>
+                        <div className="flex justify-between">
+                            <span className="font-semibold">Total</span>
+                            <span className="font-semibold">${roundedTotal}</span>
                         </div>
-
-                        <button className="w-full py-4 bg-black text-white">Continue to checkout</button>
+                        <button className="w-full py-3 bg-black text-white font-semibold rounded hover:bg-gray-900 transition-colors duration-300">Continue to checkout</button>
                     </div>
                 </div>
             </div>
@@ -140,6 +128,6 @@ const Cart: React.FC = () => {
             <Footer />
         </div>
     );
-};
+}
 
 export default Cart;
