@@ -103,8 +103,8 @@ const Products = () => {
     };
 
     return (
-        <div className='h-screen'>
-            <div className='flex flex-col space-y-5  w-full h-fit pb-4 border-b-4 border-gray-600'>
+        <div className='h-screen bg-gray-200'>
+            <div className='flex flex-col space-y-5 w-full h-fit pb-4 border-b-4 border-gray-600'>
                 <h1 className='text-4xl text-center font-semibold pt-14'>
                     Products:
                 </h1>
@@ -120,7 +120,7 @@ const Products = () => {
             </div>
 
 
-            <div className='flex flex-row justify-between w-screen h-fit overflow-x-scroll items-center px-10 pb-10 mt-10 space-x-10'>
+            <div className='flex sm:flex-row flex-col justify-between w-[80%] rounded-[50px] items-center mx-auto h-fit overflow-y-auto px-10 py-4  mb-10 sm:space-x-10 sm:space-y-0 space-y-10'>
                 {dataItems.map((product, index) => (
                     <div key={index} className='flex flex-col shadow-2xl hover:scale-105 rounded-[15px] bg-gray-200 p-4 items-end justify-between transition-all duration-300'>
                         <div key={product._id}

@@ -74,16 +74,16 @@ const Cart: React.FC = () => {
         router.push(`/products/${id}`);
     };
 
-   return (
+    return (
         <div className="flex flex-col min-h-screen">
             <Navbar />
 
-            <div className="flex flex-col lg:flex-row flex-grow">
+            <div className="flex flex-col mt-20 lg:flex-row flex-grow">
                 {/* Cart Items */}
                 <div className="lg:w-1/2 bg-white p-8 border-b lg:border-b-0 lg:border-r">
                     <h2 className="text-3xl font-semibold mb-6">Your Cart</h2>
                     {cartItems.length > 0 ? (
-                        <ul className="divide-y divide-gray-200">
+                        <ul className="divide-y max-h-[420px] overflow-hidden overflow-y-scroll divide-gray-200">
                             {cartItems.map((product, index) => (
                                 <li key={index} className="py-6 flex flex-row items-center justify-between">
                                     <div className="flex items-center space-x-4">

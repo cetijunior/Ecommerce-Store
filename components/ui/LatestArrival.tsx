@@ -17,19 +17,6 @@ interface LatestArrivalsProps {
     addToCart: (item: ProductDoc) => void;
 }
 
-interface Product {
-    name: string;
-    description: string;
-    price: number;
-    category: string;
-    imageUrl: string;
-    inStock: boolean;
-}
-
-interface LatestArrivalsProps {
-    addToCart: (item: ProductDoc) => void;
-}
-
 const LatestArrivals: React.FC<LatestArrivalsProps> = () => {
     const [dataItems, setDataItems] = useState<ProductDoc[]>([]);
     const [cartItems, setCartItems] = useState<ProductDoc[]>([]);
@@ -83,7 +70,7 @@ const LatestArrivals: React.FC<LatestArrivalsProps> = () => {
     const firstThreeItems = dataItems.slice(0, 3);
 
     return (
-        <div className="h-full flex flex-col items-center space-y-8 justify-evenly">
+        <div className="w-full mx-auto h-full flex flex-col items-center space-y-8 justify-evenly">
             <div className="flex flex-col items-center space-y-5">
                 <h1 className="text-4xl font-semibold pt-14">Latest Arrivals</h1>
                 <h1 className="lg:w-[450px] w-fit text-center opacity-80 text-wrap">
@@ -92,7 +79,7 @@ const LatestArrivals: React.FC<LatestArrivalsProps> = () => {
                 </h1>
             </div>
 
-            <div className='flex flex-col lg:flex-row w-full overflow-x-auto lg:overflow-x-hidden scrollbar-x-true items-center justify-evenly px-10 pb-10 -mt-10 space-y-10 lg:space-y-0 lg:space-x-10'>
+            <div className='flex flex-col lg:flex-row w-full py-10 pb-20 overflow-x-auto lg:overflow-x-hidden scrollbar-x-true items-center justify-evenly px-10 pb-10 -mt-10 space-y-10 lg:space-y-0 lg:space-x-10'>
                 {firstThreeItems.map((product, index) => (
                     <div
                         key={index}

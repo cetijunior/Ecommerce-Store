@@ -5,6 +5,7 @@ import Products from '../../components/admin/Products'; // Import the Products c
 import AdminLogin from './AdminLogin'; // Import the AdminLogin component
 import { UserProfile, useUser } from '@clerk/nextjs';
 import { SignInButton, SignOutButton, SignedIn, SignedOut, UserButton } from '@clerk/clerk-react';
+import '@/styles/globals.css'; // Import global styles
 
 const AdminPage = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
@@ -37,8 +38,8 @@ const AdminPage = () => {
     }, []);
 
     return (
-        <div className='flex flex-col'>
-            <header className="bg-gray-800 p-4">
+        <div className='flex flex-col min-h-screen bg-gray-200'>
+            <header className="bg-gray-800 p-4 py-10 sm:pt-4 shadow">
                 <div className="container mx-auto flex justify-between items-center">
                     <div className='flex flex-row space-x-4 items-center'>
                         <h1 className="text-white text-2xl font-semibold">Admin Dashboard</h1>
@@ -46,19 +47,10 @@ const AdminPage = () => {
                     </div>
                     <div className="flex flex-row space-x-4 items-center">
                         <button onClick={handleLogout} className='py-2 px-4 rounded focus:outline-none focus:shadow-outline bg-red-500 hover:bg-red-700 text-white font-bold'>LogOut</button>
-                        <div className='py-2 px-4 rounded focus:outline-none focus:shadow-outline bg-red-500 hover:bg-red-700 text-white font-bold'>
-                            <SignedOut>
-                                <SignInButton mode="modal" />  {/* Clerk SignInButton for unauthenticated users */}
-                            </SignedOut>
-                            <SignedIn>
-                                <SignOutButton />  {/* Clerk SignOutButton for authenticated users */}
-                            </SignedIn>
-                        </div>
                     </div>
                 </div>
             </header>
-            <div className="container mx-auto -mt-10">
-
+            <div className="container mx-auto  -mt-10 py-4">
                 {/* Conditionally render AdminLogin or Products based on login status */}
                 {isLoggedIn ? (
                     <Products />

@@ -6,11 +6,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import Carousel from '../components/ui/Carousel';
-import Categories from '../components/ui/Categories';
+// import Categories from '../components/ui/Categories';
 import Products from '../components/ui/Products';
 import LatestArrivals from '../components/ui/LatestArrival';
 import { ProductDoc } from '@/models/Product';
-import SearchBar from '../components/ui/SearchBar';
+// import SearchBar from '../components/ui/SearchBar';
 
 
 function Hero() {

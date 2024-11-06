@@ -2,9 +2,8 @@ import React from 'react';
 
 function Footer() {
     return (
-        <div className='pt-10 mt-10 border-t-2 border-gray-400 w-screen'>
-            <div className='lg:flex lg:flex-row flex-col lg:pb-8 lg:px-10 px-6 pb-4 space-y-10 lg:items-start items-start lg:justify-evenly'>
-
+        <div className='pt-3 mt-10 border-t-2 border-gray-400 w-screen'>
+            <div className='lg:flex lg:flex-row flex-col lg:pb-8 lg:px-10 px-6 pb-4 lg:items-center items-start lg:justify-between'>
                 <div className='space-y-3'>
                     <h1 className='lg:text-3xl text-xl lg:text-left text-center font-bold'>Join Our Newsletter</h1>
                     <p className='lg-w-full text-center text-wrap lg:text-left'>Get exclusive access to our latest news and specials.</p>
@@ -13,33 +12,31 @@ function Footer() {
                         <button className='font-bold p-2 bg-black text-white hover:bg-gray-800'>Subscribe</button>
                     </div>
                 </div>
-                
-                
                 <div className='flex flex-col space-y-4'>
                     <h1 className='font-bold'>Services</h1>
                     <div>
-                        <p>Consulting</p>
-                        <p>Sales</p>
-                        <p>Support</p>
-                        <p>Custom Solutions</p>
+                        <p className='cursor-pointer'>Consulting</p>
+                        <p className='cursor-pointer'>Sales</p>
+                        <p className='cursor-pointer'>Support</p>
+                        <p className='cursor-pointer'>Custom Solutions</p>
                     </div>
                 </div>
                 <div className='flex flex-col space-y-4'>
                     <h1 className='font-bold'>Company</h1>
                     <div>
-                        <p>About Us</p>
-                        <p>Careers</p>
-                        <p>Press</p>
-                        <p>Blog</p>
+                        <p className='cursor-pointer'>About Us</p>
+                        <p className='cursor-pointer'>Careers</p>
+                        <p className='cursor-pointer'>Press</p>
+                        <p className='cursor-pointer'>Blog</p>
                     </div>
                 </div>
                 <div className='flex flex-col space-y-4'>
                     <h1 className='font-bold'>Resources</h1>
                     <div>
-                        <p>FAQs</p>
-                        <p>Help Center</p>
-                        <p>Privacy Policy</p>
-                        <p>Terms of Service</p>
+                        <p className='cursor-pointer'>FAQs</p>
+                        <p className='cursor-pointer'>Help Center</p>
+                        <p className='cursor-pointer'>Privacy Policy</p>
+                        <p className='cursor-pointer'>Terms of Service</p>
                     </div>
                 </div>
             </div>

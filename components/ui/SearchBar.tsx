@@ -113,7 +113,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ products, onSearch, router }) => 
 
     return (
         <div className='relative'>
-            <div className='flex flex-row px-2 items-center justify-between w-full space-x-0'>
+            <div className='flex flex-row px-2 border-2 border-gray-400 rounded-full transition-all duration-300 hover:border-blue-500 items-center justify-between w-full space-x-0'>
                 <img className='w-4 h-4' src='/search.png' alt='Search'></img>
                 <input
                     type="text"
